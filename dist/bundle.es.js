@@ -1907,6 +1907,7 @@ function doWalletDecrypt() {
 }
 
 function doWalletStatus() {
+  debugger;
   return dispatch => {
     dispatch({
       type: WALLET_STATUS_START
@@ -1931,6 +1932,7 @@ function doSetTransactionListFilter(filterOption) {
 }
 
 function doUpdateBlockHeight() {
+  debugger;
   return dispatch => lbryProxy.status().then(status => {
     if (status.wallet) {
       dispatch({
@@ -2199,7 +2201,7 @@ function doClaimSearch(amount = 20, options = {}) {
 
       dispatch({
         type: CLAIM_SEARCH_COMPLETED,
-        data: { resolveInfo, uris }
+        data: { resolveInfo, uris, append: options.page && options.page !== 1 }
       });
     };
 
@@ -3002,9 +3004,18 @@ reducers[CLAIM_SEARCH_STARTED] = state => {
   });
 };
 reducers[CLAIM_SEARCH_COMPLETED] = (state, action) => {
+  const { lastClaimSearchUris } = state;
+
+  let newClaimSearchUris = [];
+  if (action.data.append) {
+    newClaimSearchUris = lastClaimSearchUris.concat(action.data.uris);
+  } else {
+    newClaimSearchUris = action.data.uris;
+  }
+
   return _extends$4({}, handleClaimAction(state, action), {
     fetchingClaimSearch: false,
-    lastClaimSearchUris: action.data.uris
+    lastClaimSearchUris: newClaimSearchUris
   });
 };
 reducers[CLAIM_SEARCH_FAILED] = state => {

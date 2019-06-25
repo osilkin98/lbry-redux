@@ -362,6 +362,7 @@ export function doWalletDecrypt() {
 }
 
 export function doWalletStatus() {
+  debugger;
   return dispatch => {
     dispatch({
       type: ACTIONS.WALLET_STATUS_START,
@@ -386,6 +387,7 @@ export function doSetTransactionListFilter(filterOption) {
 }
 
 export function doUpdateBlockHeight() {
+  debugger;
   return dispatch =>
     Lbry.status().then(status => {
       if (status.wallet) {

@@ -281,7 +281,7 @@ export function doClaimSearch(amount: number = 20, options: {} = {}) {
 
       dispatch({
         type: ACTIONS.CLAIM_SEARCH_COMPLETED,
-        data: { resolveInfo, uris },
+        data: { resolveInfo, uris, append: options.page && options.page !== 1 },
       });
     };
 
